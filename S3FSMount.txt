@@ -1,0 +1,49 @@
+S3FS Mounting
+---------------------
+	1.INstallation of WebServer is needed before mounting
+		1.sudo apt-get update
+		2.sudo apt-get install apache2		
+
+Additional Packages for S3FS:
+---------------------------------
+	2.sudo apt-get install automake autotools-dev fuse g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config
+
+AWS CLI:
+-------------
+	3.sudo apt-get update && apt-get install awscli
+
+S3FS Installation Cloning through git: 
+-----------------------------------------------
+	4.git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+
+	5.sudo chmod 777 s3fs-fuse/
+
+        6.  cd s3fs-fuse
+	    ./autogen.sh
+	    ./configure --prefix=/usr --with-openssl
+	    make
+	    sudo make install
+
+	7. which s3fs -> For Checking S3FS is installed?
+
+	8.touch /etc/passwd-s3fs
+
+	9.vim /etc/passwd-s3fs
+	     Your_accesskey:Your_secretkey
+
+	10.sudo chmod 640 /etc/passwd-s3fs
+
+	11.mkdir /mys3bucket
+
+	12.s3fs your_bucketname -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 /mys3bucket
+
+	13.nano /etc/rc.local
+
+	14.s3fs your_bucketname /mys3bucket -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5
+	     -o use_path_request_style -o url=https://s3-{{aws_region}}.amazonaws.com
+
+	15.df -Th /mys3bucket
+
+
+
+
